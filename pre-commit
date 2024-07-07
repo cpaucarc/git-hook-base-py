@@ -1,0 +1,16 @@
+#!/bin/bash
+AUDIO_FILE="C:\\minsa\\minsa-hook\\gitwarnbase.wav"
+
+# Verifica si base.py ha sido modificado
+if git diff --cached --name-only | grep -q 'base.py'; then
+    echo -e "\033[0;31mEl archivo base.py ha sido modificado y está en el stage.\033[0m"
+    powershell.exe -c "
+    try {
+        (New-Object Media.SoundPlayer '$AUDIO_FILE').PlaySync();
+    } catch {
+        Write-Host 'Error al intentar reproducir el audio.';
+    }"
+fi
+
+# Permite que el commit continúe
+exit 0
